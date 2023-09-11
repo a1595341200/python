@@ -2,7 +2,7 @@
 Author: yao.xie 1595341200@qq.com
 Date: 2023-08-28 13:32:18
 LastEditors: yao.xie 1595341200@qq.com
-LastEditTime: 2023-08-28 17:50:42
+LastEditTime: 2023-09-01 19:16:25
 FilePath: /fusion/威尔逊损失函数.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -11,11 +11,17 @@ Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查�
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import matplotlib
 
 a = np.array(np.linspace(0, 3, 100))
 a1 = np.array(np.linspace(1e-6, 1, 100))
 def ScalePositiveProbability(max_p_) :
-    y = (a1 - 0.5) * (max_p_ - 0.5) / (1 - 0.5) + 0.5
+    y = list()
+    for i in a1 :
+        if(i <= 0.5):
+            y.append(i)
+        else :
+            y.append((i - 0.5) * (max_p_ - 0.5) / (1 - 0.5) + 0.5)
     return y
 
 plt.figure()
@@ -59,20 +65,20 @@ def FuseTwoProbabilities(prob1, prob2) :
     return prob
 
 def test() :
-    plt.subplot(121)
-    for x in [0.3,0.4,0.5,0.6,0.7,0.8] :
-        plt.plot(a, WelshVarLossFun(x),label = str(x))
-    plt.legend(loc = 'best')
-    plt.plot([0.5,0.5],[1,0])
-    ax = plt.gca()
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.spines['bottom'].set_position(('data', 0))
-    ax.spines['left'].set_position(('data', 0))
+    # plt.subplot(121)
+    # for x in [0.3,0.4,0.5,0.6,0.7,0.8] :
+    #     plt.plot(a, WelshVarLossFun(x),label = '缩放因子 ' + str(x))
+    # plt.legend(loc = 'best')
+    # plt.plot([0.5,0.5],[1,0])
+    # ax = plt.gca()
+    # ax.spines['right'].set_color('none')
+    # ax.spines['top'].set_color('none')
+    # ax.spines['bottom'].set_position(('data', 0))
+    # ax.spines['left'].set_position(('data', 0))
     # ax.spines['left'].set_position(('axes', 0))
-    plt.subplot(122)
+    # plt.subplot(122)
     for x in [0.9,0.8,0.7,0.6,0.5,0.4] :
-        plt.plot(a1,ScalePositiveProbability(x),label = str(x))
+        plt.plot(a1,ScalePositiveProbability(x),label = r'最大概率 ' + str(x))
     plt.plot([0.5,0],[0.5,0.5],color = 'b')
     plt.plot([0.5,0.5],[0.5,0],color = 'b')
     plt.legend(loc = 'best')
@@ -81,8 +87,8 @@ def test() :
     ax.spines['top'].set_color('none')
     ax.spines['bottom'].set_position(('data', 0))
     ax.spines['left'].set_position(('data', 0))
-    # ax.annotate('0.5', xy=(0.5, 0.5), xytext=(0, 0),arrowprops=dict(facecolor='black', shrink=0.05))
-    # bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
+    ax.annotate('0.5', xy=(0.5, 0.5), xytext=(0, 0),arrowprops=dict(facecolor='black', shrink=0.05))
+    bbox_props = dict(boxstyle="round", fc="w", ec="0.5", alpha=0.9)
     '''
         以文本坐标(-2,-2)
         ha="center"  在水平方向上，方框的中心在为（-2,0)
@@ -117,6 +123,7 @@ def testTrans() :
     plt.show()
 
 if __name__ == '__main__':
-    print(testFuseMultipleProbabilities())
-    testTrans()
-    
+    matplotlib.rc("font",family='MicroSoft YaHei',weight="bold")
+    # print(testFuseMultipleProbabilities())
+    # testTrans()
+    test()
