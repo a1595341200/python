@@ -78,7 +78,7 @@ def test() :
     # ax.spines['left'].set_position(('axes', 0))
     # plt.subplot(122)
     for x in [0.9,0.8,0.7,0.6,0.5,0.4] :
-        plt.plot(a1,ScalePositiveProbability(x),label = r'最大概率 ' + str(x))
+        plt.plot(a1,ScalePositiveProbability(x),label = '$max_p$ ' + str(x))
     plt.plot([0.5,0],[0.5,0.5],color = 'b')
     plt.plot([0.5,0.5],[0.5,0],color = 'b')
     plt.legend(loc = 'best')
