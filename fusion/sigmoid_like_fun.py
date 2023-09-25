@@ -2,7 +2,7 @@
 Author: yao.xie 1595341200@qq.com
 Date: 2023-08-28 13:32:18
 LastEditors: yao.xie 1595341200@qq.com
-LastEditTime: 2023-08-30 13:59:19
+LastEditTime: 2023-09-25 23:17:52
 FilePath: /fusion/威尔逊损失函数.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -28,7 +28,7 @@ def testDist_slope(dist_slope) :
 if __name__ == '__main__':
     
     for i in [0.25,0.5,1,10,100] :
-        plt.plot(a, testDist_slope(i), label = str(i))
+        plt.plot(a, testDist_slope(i), label = "dist_slope = " + str(i))
   
     plt.legend()
     plt.show()
