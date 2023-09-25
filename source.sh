@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# sudo ln -s /mnt/c/Windows/Fonts /usr/share/fonts/font
+# fc-cache -fv
 mkdir -p ~/.pip
 echo -e "\
 [global]\ntimeout = 6000\n\
