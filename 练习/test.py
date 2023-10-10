@@ -1,3 +1,4 @@
+#! /opt/homebrew/bin/python3
 from ast import Try
 from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout, QComboBox, QLineEdit, QTextEdit
 import sys
