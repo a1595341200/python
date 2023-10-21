@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 def read_csv():
     # 读取
-    csv_result = pd.read_csv('/home/user/python/RMF_Refline.csv')
+    csv_result = pd.read_csv('/home/user/python/rmf/RMF_Refline.csv')
     row_list = csv_result.values.tolist()
     return row_list
 
@@ -46,7 +46,6 @@ if __name__ == "__main__":
             continue
         else :
             plt.legend(loc = 'best')
-            plt.plot([0.5,0.5],[1,0])
             ax = plt.gca()
             ax.spines['right'].set_color('none')
             ax.spines['top'].set_color('none')
