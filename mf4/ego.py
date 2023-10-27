@@ -2,7 +2,7 @@
 Author: 谢瑶 
 Date: 2023-10-13 13:33:44
 LastEditors: 谢瑶 
-LastEditTime: 2023-10-27 11:10:59
+LastEditTime: 2023-10-27 11:07:25
 FilePath: /python/mf4/mf4read.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -71,7 +71,7 @@ def getsignal(name, mdf):
     signal = mdf.get(name)
     data = signal.samples
     timestamps = signal.timestamps
-    return timestamps, data
+    signal.plot()
 
 
 def AEBTimeIndex(mdf):
@@ -106,7 +106,6 @@ def test():
     index = AEBTimeIndex(mdf)
     row = 4
     col = 4
-    index.append(800)
     for i in index:
         print("i = ",i)
         fig = plt.figure()
@@ -139,4 +138,5 @@ def test():
 
 
 if __name__ == "__main__":
-    test()
+    mdf = MDF(path)
+    getsignal("ISM_Bus_EgoMotionData_EgoMotion.Speed",mdf)
