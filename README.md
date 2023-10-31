@@ -2,7 +2,7 @@
  * @Author: 谢瑶 
  * @Date: 2023-08-28 09:29:50
  * @LastEditors: 谢瑶 
- * @LastEditTime: 2023-10-13 16:22:47
+ * @LastEditTime: 2023-10-31 14:03:58
  * @FilePath: /python/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -12,9 +12,10 @@
     - [1.1.2. NumPy教程-numpy.mean()在Python中的使用](#112-numpy教程-numpymean在python中的使用)
     - [1.1.3. NumPy教程-numpy.transpose()在Python中的使用](#113-numpy教程-numpytranspose在python中的使用)
   - [1.2. 卡尔曼滤波](#12-卡尔曼滤波)
-    - [高斯公式](#高斯公式)
-    - [高斯相乘](#高斯相乘)
-    - [把它们结合在一起](#把它们结合在一起)
+    - [1.2.1. 高斯公式](#121-高斯公式)
+    - [1.2.2. 高斯相乘](#122-高斯相乘)
+    - [1.2.3. 把它们结合在一起](#123-把它们结合在一起)
+  - [1.3. UKF](#13-ukf)
 
 # 1. python
 ## 1.1. numpy
@@ -50,9 +51,9 @@
 ## 1.2. 卡尔曼滤波
 https://zhuanlan.zhihu.com/p/39912633
 https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/
-### 高斯公式
+### 1.2.1. 高斯公式
 ![高斯公式](https://pic1.zhimg.com/80/v2-97fd17b2ea76d5452a22725f19f99580_1440w.webp)
-### 高斯相乘
+### 1.2.2. 高斯相乘
 
 &emsp;&emsp;![高斯公式](https://pic2.zhimg.com/80/v2-95a639e3feb8773757a4a74e45e477c5_1440w.webp)
 
@@ -71,7 +72,7 @@ https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/
 &emsp;&emsp;![高斯公式](https://pic1.zhimg.com/80/v2-1c02a4b31a146aba44c5082079df1e8c_1440w.webp)
 这个矩阵$K$就是我们说的卡尔曼增益，easy！
 
-### 把它们结合在一起
+### 1.2.3. 把它们结合在一起
 &emsp;&emsp;截至目前，我们有用矩阵预测的分布$(\mu_0,\Sigma_0) = (H_k\hat{x}_k,H_kP_kH^T_k)$, 有用传感器读数$(\mu_1,\Sigma_1)=(\vec{z},R_k)$预测的分布。把它们代入上节的矩阵等式中：
 
 &emsp;&emsp;![高斯公式](https://pic4.zhimg.com/80/v2-9cb02f4cb340f4bee98bf8fdef80867b_1440w.webp)
@@ -87,3 +88,5 @@ https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/
 &emsp;&emsp;最后, $\hat{x}{^,}_k$是我们的最佳估计值，我们可以把它继续放进去做另一轮预测：
 
 &emsp;&emsp;![高斯公式](https://pic3.zhimg.com/80/v2-c4db49174bd28fa7634be3858a368e26_1440w.webp)
+## 1.3. UKF
+https://www.cnblogs.com/21207-iHome/p/5235768.html
