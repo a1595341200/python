@@ -14,8 +14,9 @@ from scipy.optimize import curve_fit
 import pandas as pd
 import matplotlib.pyplot as plt
 
-threshold = 0.30
-distance_threshold = 60
+threshold = 1
+distance_threshold_x = 100
+distance_threshold_y = 20
 
 
 def Pfun(t, BETA_0, BETA_1, BETA_2, BETA_3, BETA_4, BETA_5):
@@ -35,18 +36,26 @@ class Fit:
         self.res_y = []
         self.__reader = []
 
+    def get_error(self):
+        return self.__map["error_lgt"], self.__map["error_lat"]
+    def get_mes(self):
+        return self.__mes_lgt, self.__mes_lat
+
+    def get_gt(self):
+        return self.__map["gt_lgt_dis"], self.__map["gt_lat_dis"]
+
     def __getInternalDate(self):
         row = 0
         rel_row = 0
         for index, val in self.__reader.iterrows():
             ratiox = abs(val["error_lat"] / val["gt_lat_dis"])
             ratioy = abs(val["error_lgt"] / val["gt_lgt_dis"])
-            if abs(val["gt_lat_dis"]) < distance_threshold and abs(val["gt_lgt_dis"]) < distance_threshold:
+            if abs(val["gt_lat_dis"]) < distance_threshold_y and abs(val["gt_lgt_dis"]) < distance_threshold_x:
                 row += 1
 
-            if abs(val["gt_lat_dis"]) < distance_threshold and abs(val["gt_lgt_dis"]) < distance_threshold and abs(
-                    val["error_lat"]) < 10 and abs(
-                val["error_lgt"]) < 10 and ratiox < threshold and ratioy < threshold:
+            if abs(val["gt_lat_dis"]) < distance_threshold_y and abs(val["gt_lgt_dis"]) < distance_threshold_x and abs(
+                    val["error_lat"]) < 100 and abs(
+                val["error_lgt"]) < 100 and ratiox < threshold and ratioy < threshold:
                 self.__map['gt_lat_dis'].append(val["gt_lat_dis"])
                 self.__map['gt_lgt_dis'].append(val["gt_lgt_dis"])
                 self.__map['error_lat'].append(val["error_lat"])
@@ -62,7 +71,7 @@ class Fit:
         print("比率", rel_row / row)
 
     def __getData(self, name):
-        self.__reader = pd.read_csv(name, usecols=[3, 4, 5, 6])
+        self.__reader = pd.read_csv(name, usecols=[7, 8, 9, 10])
         self.__getInternalDate()
 
         self.__mes_lat = np.array(self.__map['gt_lat_dis']) + np.array(self.__map['error_lat'])
@@ -96,11 +105,12 @@ class Fit:
         return self.res_x, cov_x, self.res_y, cov_y
 
     def test(self):
-
+        ex = []
+        ey = []
         for index, val in self.__reader.iterrows():
             ratiox = abs(val['error_lat'] / val['gt_lat_dis'])
             ratioy = abs(val['error_lgt'] / val['gt_lgt_dis'])
-            if abs(val["gt_lat_dis"]) < 10 and val["gt_lgt_dis"] < distance_threshold and abs(
+            if abs(val["gt_lat_dis"]) < distance_threshold_y and val["gt_lgt_dis"] < distance_threshold_x and abs(
                     val["error_lat"]) < 10 and abs(
                 val["error_lgt"]) < 10 and ratiox < threshold and ratioy < threshold:
                 m_y = val["gt_lat_dis"] + val["error_lat"]
@@ -126,10 +136,13 @@ class Fit:
                 f32PosVarY += self.res_y[5] * abs(position_y * position_x)
                 # print('fit lgt', f32PosVarX)
                 # print('fit lat', f32PosVarY)
+                ex.append(f32PosVarX)
+                ey.append(f32PosVarY)
+        return ex, ey
 
 
 if __name__ == "__main__":
     fit = Fit()
     # fit.doFit("/Users/xieyao/Downloads/4_TYPE/gt_type_BigCar.csv", "BigCar")
-    fit.doFit("/Users/xieyao/Downloads/4_TYPE/gt_type_SmallCar.csv", "SmallCar")
-    fit.test()
+    # fit.doFit("/Users/xieyao/Downloads/4_TYPE/gt_type_SmallCar.csv", "SmallCar")
+    # fit.test()

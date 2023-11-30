@@ -4,9 +4,13 @@ import data_fit
 from mpl_toolkits.mplot3d import Axes3D
 
 fit = data_fit.Fit()
-# coefficient_x, cov_x, coefficient_y, cov_y = fit.doFit("/media/psf/Home/Downloads/4_TYPE/gt_type_BigCar.csv", "BigCar")
-coefficient_x, cov_x, coefficient_y, cov_y = fit.doFit("/media/psf/Home/Downloads/4_TYPE/gt_type_SmallCar.csv", "SmallCar")
-
+# coefficient_x, cov_x, coefficient_y, cov_y = fit.doFit("/media/psf/Home/Downloads/data/gt_type_BigCar.csv", "BigCar")
+coefficient_x, cov_x, coefficient_y, cov_y = fit.doFit("/media/psf/Home/Downloads/data/gt_type_SmallCar.csv",
+                                                       "SmallCar")
+myx, myy = fit.test()
+mes_x, mes_y = fit.get_mes()
+gtx, gty = fit.get_gt()
+ex, ey = fit.get_error()
 FLT_ZERO = 0
 # # /** Position X */
 # JKOBJLIST_MVS_SENSOR_MODEL_PEDESTRIAN_POS_X_BETA_0 = (-1.02657224e-01)
@@ -266,8 +270,8 @@ def compute_1R1V_variance(position_x, position_y):
     f32PosVarY += JKOBJLIST_MVS_SENSOR_MODEL_VEHICLE_POS_Y_BETA_3 * (position_x * position_x)
     f32PosVarY += JKOBJLIST_MVS_SENSOR_MODEL_VEHICLE_POS_Y_BETA_4 * (position_y * position_y)
     f32PosVarY += JKOBJLIST_MVS_SENSOR_MODEL_VEHICLE_POS_Y_BETA_5 * (position_y * position_x)
-    print("f32PosVarX ",f32PosVarX)
-    print("f32PosVarY ",f32PosVarY)
+    # print("f32PosVarX ",f32PosVarX)
+    # print("f32PosVarY ",f32PosVarY)
     return f32PosVarX, f32PosVarY, f32VelVarX, f32VelVarY
 
 
@@ -344,7 +348,7 @@ def compute_camera_car_variance(position_x, position_y):
     f32PosVarY += JKOBJLIST_MVS_SENSOR_MODEL_VEHICLE_POS_Y_BETA_5 * abs(position_y * position_x)
     # f32PosVarY = min(JKOBJLIST_MVS_SENSOR_MODEL_VEHICLE_POS_Y_MAX, max(JKOBJLIST_MVS_SENSOR_MODEL_VEHICLE_POS_Y_MIN, f32PosVarY))
 
-    return f32PosVarX, f32PosVarY, f32VelVarX, f32VelVarY
+    return abs(f32PosVarX), abs(f32PosVarY), f32VelVarX, f32VelVarY
 
 
 # 定义camear方差计算函数
@@ -430,8 +434,8 @@ pos_var_y_values = []
 vel_var_x_values = []
 vel_var_y_values = []
 # 生成一系列位置值
-positionsX = np.linspace(0, 60, 400)
-positionsY = np.linspace(-10, 10, 400)
+positionsX = np.linspace(0, 100, 800)
+positionsY = np.linspace(-20, 20, 400)
 
 X = []
 Y = []
@@ -506,35 +510,41 @@ EVY = np.array(vel_var_y_values)
 EX = np.array(pos_var_x_values)
 EY = np.array(pos_var_y_values)
 
+
 # # 绘制3D散点图
 fig1 = plt.figure()
-ax1 = fig1.add_subplot(221, projection='3d')
+ax1 = fig1.add_subplot(121, projection='3d')
+# ax1 = fig1.add_subplot(121)
 ax1.plot_surface(X, Y, EX, cmap=plt.cm.winter)
+# ax1.scatter(ex, ey)
+# ax1.scatter(mes_x - myx, mes_y - myy)
 ax1.set_xlabel('Position X')
 ax1.set_ylabel('Position Y')
 ax1.set_zlabel('Variance')
 ax1.set_title('ERROR_X')
-
-ax2 = fig1.add_subplot(222, projection='3d')
+#
+ax2 = fig1.add_subplot(122, projection='3d')
+# ax2 = fig1.add_subplot(122)
+# ax2.scatter(np.array(ex) - np.array(myx), np.array(ey) - np.array(myy))
 ax2.plot_surface(X, Y, EY, cmap=plt.cm.winter)
 ax2.set_xlabel('Position X')
 ax2.set_ylabel('Position Y')
 ax2.set_zlabel('Variance')
 ax2.set_title('ERROR_Y')
 
-ax3 = fig1.add_subplot(223, projection='3d')
-ax3.plot_surface(X, Y, EVX, cmap=plt.cm.winter)
-ax3.set_xlabel('Position X')
-ax3.set_ylabel('Position Y')
-ax3.set_zlabel('Variance')
-ax3.set_title('ERROR_VX')
-
-ax4 = fig1.add_subplot(224, projection='3d')
-ax4.plot_surface(X, Y, EVY, cmap=plt.cm.winter)
-ax4.set_xlabel('Position X')
-ax4.set_ylabel('Position Y')
-ax4.set_zlabel('Variance')
-ax4.set_title('ERROR_VY')
+# ax3 = fig1.add_subplot(223, projection='3d')
+# ax3.plot_surface(X, Y, EVX, cmap=plt.cm.winter)
+# ax3.set_xlabel('Position X')
+# ax3.set_ylabel('Position Y')
+# ax3.set_zlabel('Variance')
+# ax3.set_title('ERROR_VX')
+#
+# ax4 = fig1.add_subplot(224, projection='3d')
+# ax4.plot_surface(X, Y, EVY, cmap=plt.cm.winter)
+# ax4.set_xlabel('Position X')
+# ax4.set_ylabel('Position Y')
+# ax4.set_zlabel('Variance')
+# ax4.set_title('ERROR_VY')
 
 fig1.canvas.set_window_title('camera car')
 
