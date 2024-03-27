@@ -1,15 +1,29 @@
+'''
+Author: yao.xie 1595341200@qq.com
+Date: 2024-03-01 15:55:49
+LastEditors: yao.xie 1595341200@qq.com
+LastEditTime: 2024-03-27 15:18:22
+FilePath: /python/test.py
+Description: 
+
+Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
+'''
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
- 
-print( "你好，世界" )
 
-import os
 import sys
-logf = open("log.txt", "a+")
-logf.seek(0)
-print(logf.read())
-logf.seek(os.SEEK_END)
-print("Hello World")
-logf.close()
+import os
+import math
+
 if __name__ == '__main__':
-    print("main")
+    a = math.tan(math.radians(135))
+    print(a)
+
+    a = math.tan(math.radians(15))
+    print(a)
+
+    a = math.tan(math.radians(125))
+    print(a)
+
+    a = math.tan(math.radians(25))
+    print(a)
