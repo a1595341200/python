@@ -1,9 +1,9 @@
 '''
-Author: yao.xie yao.xie@jicaai.com
+Author: yao.xie 1595341200@qq.com
 Date: 2023-11-28 10:51:24
-LastEditors: yao.xie yao.xie@jicaai.com
-LastEditTime: 2023-11-28 13:24:33
-FilePath: /python/数据拟合/数据拟合.py
+LastEditors: yao.xie 1595341200@qq.com
+LastEditTime: 2024-03-28 11:00:17
+FilePath: /python/数据拟合/data_fit.py
 Description: 
 
 Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
@@ -38,6 +38,7 @@ class Fit:
 
     def get_error(self):
         return self.__map["error_lgt"], self.__map["error_lat"]
+
     def get_mes(self):
         return self.__mes_lgt, self.__mes_lat
 
@@ -54,8 +55,8 @@ class Fit:
                 row += 1
 
             if abs(val["gt_lat_dis"]) < distance_threshold_y and abs(val["gt_lgt_dis"]) < distance_threshold_x and abs(
-                    val["error_lat"]) < 100 and abs(
-                val["error_lgt"]) < 100 and ratiox < threshold and ratioy < threshold:
+                val["error_lat"]) < 100 and abs(
+                    val["error_lgt"]) < 100 and ratiox < threshold and ratioy < threshold:
                 self.__map['gt_lat_dis'].append(val["gt_lat_dis"])
                 self.__map['gt_lgt_dis'].append(val["gt_lgt_dis"])
                 self.__map['error_lat'].append(val["error_lat"])
@@ -74,8 +75,10 @@ class Fit:
         self.__reader = pd.read_csv(name, usecols=[7, 8, 9, 10])
         self.__getInternalDate()
 
-        self.__mes_lat = np.array(self.__map['gt_lat_dis']) + np.array(self.__map['error_lat'])
-        self.__mes_lgt = np.array(self.__map['gt_lgt_dis']) + np.array(self.__map['error_lgt'])
+        self.__mes_lat = np.array(
+            self.__map['gt_lat_dis']) + np.array(self.__map['error_lat'])
+        self.__mes_lgt = np.array(
+            self.__map['gt_lgt_dis']) + np.array(self.__map['error_lgt'])
 
         return self.__map['gt_lat_dis'], self.__map['gt_lgt_dis'], self.__map['error_lat'], self.__map[
             'error_lgt'], self.__mes_lat, self.__mes_lgt
@@ -111,8 +114,8 @@ class Fit:
             ratiox = abs(val['error_lat'] / val['gt_lat_dis'])
             ratioy = abs(val['error_lgt'] / val['gt_lgt_dis'])
             if abs(val["gt_lat_dis"]) < distance_threshold_y and val["gt_lgt_dis"] < distance_threshold_x and abs(
-                    val["error_lat"]) < 10 and abs(
-                val["error_lgt"]) < 10 and ratiox < threshold and ratioy < threshold:
+                val["error_lat"]) < 10 and abs(
+                    val["error_lgt"]) < 10 and ratiox < threshold and ratioy < threshold:
                 m_y = val["gt_lat_dis"] + val["error_lat"]
                 m_x = val["gt_lgt_dis"] + val["error_lgt"]
                 # print('lat', val["gt_lat_dis"])
